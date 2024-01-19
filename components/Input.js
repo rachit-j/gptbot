@@ -13,7 +13,7 @@ function Input({ Prompt, setPrompt, getGPT, setisLoading }) {
           <input
             className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
             type="text"
-            placeholder="Prompt> "
+            placeholder="Prompt "
             aria-label="Full name"
             value={Prompt}
             onChange={(e) => {
