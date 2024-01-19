@@ -1,45 +1,27 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
-// export default function handler(req, res) {
-//   res.status(200).json({ name: "John Doe" });
-// }
-
 import { Configuration, OpenAIApi } from "openai";
+
 const configuration = new Configuration({
   apiKey: process.env.NEXT_PUBLIC_OPENAIKEY,
 });
+
 const openai = new OpenAIApi(configuration);
 
 export default async (req, res) => {
-  if (1 == 1) {
+  const prompt = req.body.prompt;
+
+  if (prompt) {
     try {
       const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: `${req.body.prompt}` }],
+        messages: [{ role: "user", content: prompt }],
       });
 
-      res
-        .status(200)
-        .json({ text: `${completion.data.choices[0].message.content}` });
-
-      // return completion.data.choices[0].message.content;
+      res.status(200).json({ text: completion.data.choices[0].message.content });
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      res.status(500).json({ error: "Error processing your request." });
     }
   } else {
-    res.status(400).json({ text: "No prompt provided." });
+    res.status(400).json({ error: "No prompt provided." });
   }
 };
-
-// export default async (req, res) => {
-//   if (1 == 1) {
-//     const completion = await openai.createCompletion({
-//       model: "text-davinci-003",
-//       prompt: `write a youtube video intro upto 200?`,
-//     });
-
-//     res.status(200).json({ text: `${completion.data.choices[0].text}` });
-//   } else {
-//     res.status(400).json({ text: "No prompt provided." });
-//   }
-// };
