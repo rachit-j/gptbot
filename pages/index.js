@@ -65,7 +65,7 @@ export default function Home() {
           setisLoading={setisLoading}
           Prompt={Prompt}
         />
-      </div>
+      </div> 
     </main>
   );
 }
